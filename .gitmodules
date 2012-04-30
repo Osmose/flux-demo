@@ -1,0 +1,6 @@
+[submodule "js/flux"]
+	path = js/flux
+	url = git@github.com:Osmose/flux.git
+[submodule "js/lib/flux"]
+	path = js/lib/flux
+	url = git@github.com:Osmose/flux.git
