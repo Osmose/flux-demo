@@ -2,7 +2,7 @@ define(function(require, exports) {
     function Slide(world, args) {
         this.world = world;
         this.direction = args[0]; // TODO: This is ugly.
-        this.length = 64;
+        this.length = 32;
         this.frame = 0;
 
         this.camera = world.engine.camera;
@@ -10,7 +10,7 @@ define(function(require, exports) {
 
         // Calculate rate of change.
         this.camera_dx = this.camera.width / this.length;
-        this.camera_dy = (this.camera.height - 16) / this.length;
+        this.camera_dy = this.camera.height / this.length;
         this.player_dx = 15 / this.length;
         this.player_dy = 15 / this.length;
 
@@ -35,11 +35,11 @@ define(function(require, exports) {
             this.done.player.x += 15;
             break;
         case 'up':
-            this.done.camera.y -= this.camera.height - 16;
+            this.done.camera.y -= this.camera.height;
             this.done.player.y -= 15;
             break;
         case 'down':
-            this.done.camera.y += this.camera.height - 16;
+            this.done.camera.y += this.camera.height;
             this.done.player.y += 15;
             break;
         }
