@@ -6,6 +6,7 @@ define(function(require) {
 
         this._tilemap = null;
         this._transition = null;
+        this.alpha = 0;
     }
 
     ZeldaWorld.prototype = Object.create(DefaultWorld.prototype);
@@ -27,6 +28,10 @@ define(function(require) {
         }
 
         DefaultWorld.prototype.render.call(this, ctx);
+
+        // Fade
+        ctx.fillStyle = 'rgba(255,255,255,'+this.alpha+')';
+        ctx.fillRect(0, 0, this.engine.width, this.engine.height);
     };
 
     ZeldaWorld.prototype.transition = function(transition) {
@@ -41,11 +46,14 @@ define(function(require) {
         if (this._tilemap !== null) {
             this._tilemap.world = null;
             this._tilemap.engine = null;
+
+            this._tilemap.removeEntities(this.engine);
         }
 
         this._tilemap = tilemap;
         tilemap.world = this;
         tilemap.engine = this.engine;
+        tilemap.addEntities(this.engine);
     });
 
     return ZeldaWorld;

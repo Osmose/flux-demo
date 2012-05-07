@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="Overworld" tilewidth="16" tileheight="16" spacing="1">
   <image source="../img/overworld.png" width="410" height="427"/>
  </tileset>
- <layer name="Tiles" width="30" height="24">
+ <layer name="tiles" width="30" height="24">
   <data encoding="csv">
 154,202,145,171,221,121,146,171,177,154,202,145,340,294,294,294,294,294,294,294,294,349,294,294,341,145,146,146,147,177,
 202,121,171,221,121,146,147,221,201,153,178,146,281,281,281,281,281,281,281,145,147,329,145,170,170,170,377,170,171,201,
@@ -31,7 +31,13 @@
 154,153,178,177,178,177,178,177,178,177,178,177,178,177,178,177,178,177,178,177,178,177,178,177,178,177,154,202,313,314
 </data>
  </layer>
- <objectgroup name="Regions" width="30" height="24">
-  <object name="start" type="start" x="160" y="128" width="160" height="128"/>
+ <objectgroup name="entities" width="30" height="24">
+  <object type="door" x="240" y="192" width="16" height="8">
+   <properties>
+    <property name="to" value="house_marin"/>
+    <property name="x" value="72"/>
+    <property name="y" value="100"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

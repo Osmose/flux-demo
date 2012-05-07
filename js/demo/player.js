@@ -4,6 +4,7 @@ define(function(require) {
 
     var loader = require('demo/loader');
     var Slide = require('demo/transitions').Slide;
+    var Fade = require('demo/transitions').Fade;
 
     loader.register('link', 'img/link.png', 'image');
 
@@ -63,6 +64,11 @@ define(function(require) {
         if (within_camera != true) {
             this.world.transition(Slide, within_camera);
         }
+
+        var door = this.getCollideEntity('door', dx, dy);
+        if (door !== false) {
+            this.world.transition(Fade, door);
+        };
 
         if (!collideTilemap('solid', dx, 0)) this.x += dx;
         if (!collideTilemap('solid', 0, dy)) this.y += dy;

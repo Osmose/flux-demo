@@ -4,6 +4,8 @@ define(function(require, exports) {
         this.direction = args[0]; // TODO: This is ugly.
         this.length = 32;
         this.frame = 0;
+        this.cell_x = world.tilemap.cell_x;
+        this.cell_y = world.tilemap.cell_y;
 
         this.camera = world.engine.camera;
         this.player = world.player;
@@ -27,22 +29,24 @@ define(function(require, exports) {
         };
         switch (this.direction) {
         case 'left':
-            this.done.camera.x -= this.camera.width;
-            this.done.player.x -= 15;
+            this.done.player.x += (this.camera.width - 15);
+            this.cell_x -= 1;
             break;
         case 'right':
-            this.done.camera.x += this.camera.width;
-            this.done.player.x += 15;
+            this.done.player.x -= (this.camera.width - 15);
+            this.cell_x += 1;
             break;
         case 'up':
-            this.done.camera.y -= this.camera.height;
-            this.done.player.y -= 15;
+            this.done.player.y += (this.camera.height - 15);
+            this.cell_y -= 1;
             break;
         case 'down':
-            this.done.camera.y += this.camera.height;
-            this.done.player.y += 15;
+            this.done.player.y -= (this.camera.height - 15);
+            this.cell_y += 1;
             break;
         }
+
+        this.world.tilemap.removeEntities(this.world.engine);
     }
     exports.Slide = Slide;
 
@@ -80,6 +84,50 @@ define(function(require, exports) {
             this.camera.y = this.done.camera.y;
             this.player.x = this.done.player.x;
             this.player.y = this.done.player.y;
+            this.world.tilemap.setCell(this.cell_x, this.cell_y, false);
+            this.world.tilemap.addEntities(this.world.engine);
+        }
+    };
+
+    function Fade(world, args) {
+        this.world = world;
+        this.length = 64;
+        this.frame = 0;
+
+        this.door = args[0];
+
+        this.camera = world.engine.camera;
+        this.player = world.player;
+    }
+    exports.Fade = Fade;
+
+    Fade.prototype = {
+        step: function() {
+            var world = this.world;
+            if (this.frame < 16) {
+                world.alpha = this.frame / 16;
+            } else if (this.frame < 48) {
+                world.alpha = 1;
+            } else {
+                if (this.frame < 64) {
+                    world.alpha = (64 - this.frame) / 16;
+                } else {
+                    world.alpha = 0;
+                }
+            }
+
+            if (this.frame === 32) {
+                world.tilemap = world.maps.get(this.door.to);
+                this.player.x = this.door.to_x;
+                this.player.y = this.door.to_y;
+            }
+
+            this.frame++;
+            if (this.frame >= this.length) {
+                return true;
+            }
+
+            return false;
         }
     };
 });
