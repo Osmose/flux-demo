@@ -17,12 +17,7 @@ define(function(require) {
         engine.bg_color = '#FFFF8B';
         engine.camera.height -= 16;
 
-        var maps = new TilemapCollection({
-            'overworld': new TiledGraphic(loader.get('tiles_overworld'),
-                                          16, 16, 1, 1),
-            'interior': new TiledGraphic(loader.get('tiles_interior'),
-                                         16, 16, 1, 1)
-        });
+        var maps = new TilemapCollection(createTiledGraphics());
         engine.world.maps = maps;
 
         // Overworld Map
@@ -44,4 +39,18 @@ define(function(require) {
         document.querySelector('#game').appendChild(engine.canvas);
         engine.start();
     });
+
+    function createTiledGraphics() {
+        var graphics = {};
+        var overworld = new TiledGraphic(loader.get('tiles_overworld'),
+                                         16, 16, 1, 1);
+        graphics.overworld = overworld;
+        overworld.addAnimationName(376, [376, 15, 377, 15, 378, 15, 379, 15]);
+
+        var interior = new TiledGraphic(loader.get('tiles_interior'),
+                                        16, 16, 1, 1);
+        graphics.interior = interior;
+
+        return graphics;
+    }
 });

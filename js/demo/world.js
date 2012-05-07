@@ -20,6 +20,10 @@ define(function(require) {
         } else {
             DefaultWorld.prototype.tick.call(this);
         }
+
+        if (this.tilemap !== null) {
+            this.tilemap.graphic.incAllFrames();
+        }
     };
 
     ZeldaWorld.prototype.render = function(ctx) {

@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>Test</title>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div id="num"></div>
+    <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script>
+      function mouseTilePos (elem, event, tw, th) {
+          var offset = $(elem).offset(),
+              x = event.pageX - offset.left,
+              y = event.pageY - offset.top,
+              tx = Math.floor(x / tw),
+              ty = Math.floor(y / th);
+          return {tx: tx, ty: ty};
+      }
+
+      var img = new Image();
+      img.src = '../img/overworld.png';
+      img.onload = function() {
+          var canvas = document.getElementById('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          canvas.getContext('2d').drawImage(img, 0, 0);
+          canvas.onclick = function(e) {
+              var pos = mouseTilePos(this, e, 17, 17);
+              $('#num').text(pos.tx + (pos.ty * Math.floor(img.width / 17)));
+          };
+      };
+    </script>
+  </body>
+</html>
