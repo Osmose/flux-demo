@@ -36,6 +36,7 @@ define(function(require) {
         engine.world.tilemap = maps.get('overworld');
         engine.world.tilemap.setCell(1, 1);
         engine.world.hud.moveToBottom();
+        engine.world.sounds.mabe_village.loop();
 
         document.querySelector('#game').appendChild(engine.canvas);
         engine.start();

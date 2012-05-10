@@ -1,7 +1,13 @@
 define(function(require) {
+    var $ = require('jquery');
+
     var DefaultWorld = require('flux/worlds/default');
+    var Sound = require('flux/sound');
 
     var HUD = require('demo/hud');
+    var loader = require('demo/loader');
+
+    loader.register('mabe_village', 'audio/mabe_village.ogg', 'audio');
 
     function ZeldaWorld() {
         DefaultWorld.call(this);
@@ -11,6 +17,10 @@ define(function(require) {
         this.alpha = 0;
 
         this.hud = new HUD(this);
+
+        this.sounds = {
+            mabe_village: new Sound(loader.get('mabe_village'))
+        };
     }
 
     ZeldaWorld.prototype = Object.create(DefaultWorld.prototype);
@@ -65,6 +75,18 @@ define(function(require) {
         tilemap.engine = this.engine;
         tilemap.addEntities(this.engine);
     });
+
+    ZeldaWorld.prototype.start = function() {
+        $.each(this.sounds, function(id, sound) {
+            sound.unmute();
+        });
+    };
+
+    ZeldaWorld.prototype.stop = function() {
+        $.each(this.sounds, function(id, sound) {
+            sound.mute();
+        });
+    };
 
     return ZeldaWorld;
 });
