@@ -1,12 +1,16 @@
 define(function(require) {
     var DefaultWorld = require('flux/worlds/default');
 
+    var HUD = require('demo/hud');
+
     function ZeldaWorld() {
         DefaultWorld.call(this);
 
         this._tilemap = null;
         this._transition = null;
         this.alpha = 0;
+
+        this.hud = new HUD(this);
     }
 
     ZeldaWorld.prototype = Object.create(DefaultWorld.prototype);
@@ -32,6 +36,8 @@ define(function(require) {
         }
 
         DefaultWorld.prototype.render.call(this, ctx);
+
+        this.hud.render(ctx);
 
         // Fade
         ctx.fillStyle = 'rgba(255,255,255,'+this.alpha+')';

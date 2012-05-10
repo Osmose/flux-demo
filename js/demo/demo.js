@@ -35,6 +35,7 @@ define(function(require) {
         engine.addEntity(player);
         engine.world.tilemap = maps.get('overworld');
         engine.world.tilemap.setCell(1, 1);
+        engine.world.hud.moveToBottom();
 
         document.querySelector('#game').appendChild(engine.canvas);
         engine.start();

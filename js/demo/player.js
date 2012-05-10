@@ -24,6 +24,10 @@ define(function(require) {
 
         this.direction = 'down';
         this.walking = false;
+
+        this.health = 2.5;
+        this.money = 10;
+        this.max_health = 3;
     }
 
     Player.prototype = Object.create(Entity.prototype);
