@@ -23,16 +23,21 @@ define(function(require) {
 
         var map_entities = map.objectGroups['entities'].objects;
         map_entities.forEach(function(entity) {
+            var cell_x = Math.floor(entity.x / cell_width);
+            var cell_y = Math.floor(entity.y / cell_height);
+            var x = entity.x % cell_width;
+            var y = entity.y % cell_height;
+
             if (entity.type === 'door') {
-                var cell_x = Math.floor(entity.x / cell_width);
-                var cell_y = Math.floor(entity.y / cell_height);
-                var door = new entities.Door(
-                    entity.x % cell_width, entity.y % cell_height,
+                var door = new entities.Door(x, y,
                     entity.width, entity.height,
                     entity.properties.to,
                     parseInt(entity.properties.x),
                     parseInt(entity.properties.y));
                 self.entities[cell_y][cell_x].push(door);
+            } else if (entity.type === 'entity') {
+                var type = entity.properties.type;
+                self.entities[cell_y][cell_x].push(new entities[type](x, y));
             }
         });
     }
@@ -59,6 +64,7 @@ define(function(require) {
     ZeldaTilemap.prototype.addEntities = function(engine) {
         this.entities[this.cell_y][this.cell_x].forEach(function(entity) {
             engine.addEntity(entity);
+            entity.reset();
         });
     };
 

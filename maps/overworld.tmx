@@ -39,5 +39,45 @@
     <property name="y" value="100"/>
    </properties>
   </object>
+  <object type="entity" x="372" y="148" width="8" height="8">
+   <properties>
+    <property name="type" value="Fly"/>
+   </properties>
+  </object>
+  <object type="entity" x="356" y="180" width="8" height="8">
+   <properties>
+    <property name="type" value="Fly"/>
+   </properties>
+  </object>
+  <object type="entity" x="436" y="212" width="8" height="8">
+   <properties>
+    <property name="type" value="Fly"/>
+   </properties>
+  </object>
+  <object type="entity" x="420" y="292" width="8" height="8">
+   <properties>
+    <property name="type" value="Fly"/>
+   </properties>
+  </object>
+  <object type="entity" x="436" y="324" width="8" height="8">
+   <properties>
+    <property name="type" value="Fly"/>
+   </properties>
+  </object>
+  <object type="entity" x="372" y="308" width="8" height="8">
+   <properties>
+    <property name="type" value="Fly"/>
+   </properties>
+  </object>
+  <object type="entity" x="52" y="164" width="8" height="8">
+   <properties>
+    <property name="type" value="Fly"/>
+   </properties>
+  </object>
+  <object type="entity" x="132" y="212" width="8" height="8">
+   <properties>
+    <property name="type" value="Fly"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
