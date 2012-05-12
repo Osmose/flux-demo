@@ -7,6 +7,8 @@ define(function(require, exports) {
         this.cell_x = world.tilemap.cell_x;
         this.cell_y = world.tilemap.cell_y;
 
+        var old_music = world.tilemap.music[this.cell_y][this.cell_x];
+
         this.camera = world.engine.camera;
         this.player = world.player;
 
@@ -47,6 +49,16 @@ define(function(require, exports) {
         }
 
         this.world.tilemap.removeEntities(this.world.engine);
+
+        var new_music = world.tilemap.music[this.cell_y][this.cell_x];
+        if (old_music !== new_music) {
+            var new_sound = world.sounds[new_music];
+            world.sounds[old_music].fade(0, 300).done(function() {
+                new_sound.audio.volume = 0;
+                new_sound.stop();
+                new_sound.fade(1, 300);
+            });
+        }
     }
     exports.Slide = Slide;
 
@@ -95,6 +107,15 @@ define(function(require, exports) {
         this.frame = 0;
 
         this.door = args[0];
+        this.new_tilemap = world.maps.get(this.door.to);
+        this.new_tilemap.setCell(this.door.cell_x, this.door.cell_y, false);
+
+        this.old_music = world.tilemap.currentMusic();
+        this.new_music = this.new_tilemap.musicForCell(this.door.cell_x,
+                                                       this.door.cell_y);
+        if (this.old_music !== this.new_music) {
+            world.sounds[this.old_music].fade(0, 300);
+        }
 
         this.camera = world.engine.camera;
         this.player = world.player;
@@ -117,9 +138,16 @@ define(function(require, exports) {
             }
 
             if (this.frame === 32) {
-                world.tilemap = world.maps.get(this.door.to);
+                world.tilemap = this.new_tilemap;
                 this.player.x = this.door.to_x;
                 this.player.y = this.door.to_y;
+
+                if (this.old_music !== this.new_music) {
+                    var new_sound = world.sounds[this.new_music];
+                    new_sound.audio.volume = 0;
+                    new_sound.stop();
+                    new_sound.fade(1, 300);
+                }
             }
 
             this.frame++;

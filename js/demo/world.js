@@ -8,6 +8,8 @@ define(function(require) {
     var loader = require('demo/loader');
 
     loader.register('mabe_village', 'audio/mabe_village.ogg', 'audio');
+    loader.register('house', 'audio/house.ogg', 'audio');
+    loader.register('stairs', 'audio/sfx/stairs.ogg', 'audio');
 
     function ZeldaWorld() {
         DefaultWorld.call(this);
@@ -19,8 +21,11 @@ define(function(require) {
         this.hud = new HUD(this);
 
         this.sounds = {
-            mabe_village: new Sound(loader.get('mabe_village'))
+            mabe_village: new Sound(loader.get('mabe_village')),
+            house: new Sound(loader.get('house')),
+            stairs: new Sound(loader.get('stairs'))
         };
+        this.bg = null;
     }
 
     ZeldaWorld.prototype = Object.create(DefaultWorld.prototype);

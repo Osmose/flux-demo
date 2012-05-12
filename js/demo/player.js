@@ -71,6 +71,7 @@ define(function(require) {
 
         var door = this.getCollideEntity('door', dx, dy);
         if (door !== false) {
+            this.world.sounds.stairs.play();
             this.world.transition(Fade, door);
         };
 

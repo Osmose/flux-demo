@@ -34,6 +34,8 @@
  <objectgroup name="entities" width="30" height="24">
   <object type="door" x="240" y="192" width="16" height="8">
    <properties>
+    <property name="cell_x" value="0"/>
+    <property name="cell_y" value="0"/>
     <property name="to" value="house_marin"/>
     <property name="x" value="72"/>
     <property name="y" value="100"/>
@@ -79,5 +81,8 @@
     <property name="type" value="Fly"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup name="music" width="30" height="24" visible="0">
+  <object type="mabe_village" x="0" y="0" width="480" height="384"/>
  </objectgroup>
 </map>

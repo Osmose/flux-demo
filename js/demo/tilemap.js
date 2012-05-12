@@ -11,13 +11,16 @@ define(function(require) {
         this.cell_x = 0;
         this.cell_y = 0;
 
+        this.height_cells = Math.floor(map.height_pixels / this.cell_height);
+        this.width_cells = Math.floor(map.width_pixels / this.cell_height);
+
         // Init entity containers. First index is the cell_y coordinate,
         // second is cell_x.
         this.entities = [];
-        for (var ty = 0; ty < this.heightTiles; ty++) {
-            this.entities[ty] = [];
-            for (var tx = 0; tx < this.widthTiles; tx++) {
-                this.entities[ty][tx] = [];
+        for (var cy = 0; cy < this.height_cells; cy++) {
+            this.entities[cy] = [];
+            for (var cx = 0; cx < this.width_cells; cx++) {
+                this.entities[cy][cx] = [];
             }
         }
 
@@ -33,11 +36,36 @@ define(function(require) {
                     entity.width, entity.height,
                     entity.properties.to,
                     parseInt(entity.properties.x),
-                    parseInt(entity.properties.y));
+                    parseInt(entity.properties.y),
+                    parseInt(entity.properties.cell_x),
+                    parseInt(entity.properties.cell_y));
                 self.entities[cell_y][cell_x].push(door);
             } else if (entity.type === 'entity') {
                 var type = entity.properties.type;
                 self.entities[cell_y][cell_x].push(new entities[type](x, y));
+            }
+        });
+
+        // Store what music should play in each cell.
+        this.music = [];
+        for (cy = 0; cy < this.height_cells; cy++) {
+            this.music[cy] = [];
+            for (cx = 0; cx < this.width_cells; cx++) {
+                this.music[cy][cx] = null;
+            }
+        }
+
+        var map_music_areas = map.objectGroups['music'].objects;
+        map_music_areas.forEach(function(music_area) {
+            var area_x = Math.floor(music_area.x / cell_width);
+            var area_y = Math.floor(music_area.y / cell_height);
+            var area_width = Math.floor(music_area.width / cell_width);
+            var area_height = Math.floor(music_area.height / cell_height);
+
+            for (cy = 0; cy < area_height; cy++) {
+                for (cx = 0; cx < area_width; cx++) {
+                    self.music[area_y + cy][area_x + cx] = music_area.type;
+                }
             }
         });
     }
@@ -45,6 +73,8 @@ define(function(require) {
     ZeldaTilemap.prototype = Object.create(Tilemap.prototype);
 
     ZeldaTilemap.prototype.setCell = function(cell_x, cell_y, handle_entities) {
+        var world = this.world;
+
         if (handle_entities === undefined) handle_entities = true;
         if (handle_entities && this.engine) {
             this.removeEntities(this.engine);
@@ -72,6 +102,14 @@ define(function(require) {
         this.entities[this.cell_y][this.cell_x].forEach(function(entity) {
             engine.removeEntity(entity);
         });
+    };
+
+    ZeldaTilemap.prototype.currentMusic = function() {
+        return this.music[this.cell_y][this.cell_x];
+    };
+
+    ZeldaTilemap.prototype.musicForCell = function(cell_x, cell_y) {
+        return this.music[cell_y][cell_x];
     };
 
     return ZeldaTilemap;

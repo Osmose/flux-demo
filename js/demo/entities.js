@@ -15,13 +15,15 @@ define(function(require, exports) {
         this.y = this.orig_y;
     };
 
-    function Door(x, y, width, height, to, to_x, to_y) {
+    function Door(x, y, width, height, to, to_x, to_y, cell_x, cell_y) {
         ZeldaEntity.call(this, x, y);
         this.setHitbox(0, 0, width, height);
         this.type = 'door';
         this.to = to;
         this.to_x = to_x;
         this.to_y = to_y;
+        this.cell_x = cell_x;
+        this.cell_y = cell_y;
     }
     Door.prototype = Object.create(ZeldaEntity.prototype);
     exports.Door = Door;
